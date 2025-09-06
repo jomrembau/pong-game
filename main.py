@@ -1,16 +1,14 @@
-from turtle import Screen, Turtle
+from turtle import Screen
 from ball import Ball
 from score import Score
 from paddle import Paddle
 import time
 
 game_on = True
-score1 = 0
-score2 = 0
 win = Screen()
 ball = Ball()
-player1_score = Score(-150,150,score1)
-player2_score = Score(150,150,score2)
+player1_score = Score(-150,150)
+player2_score = Score(150,150)
 paddle1 = Paddle(-250,0)
 paddle2 = Paddle(250,0)
 
@@ -41,6 +39,22 @@ while game_on:
         ball_x = ball.ball.xcor()
         heading = ball.ball.heading()
         ball.ball.setheading(180 - heading)
+
+    if ball.ball.xcor() >= 300:
+        ball.reset_ball()
+        player1_score.current_score += 1
+        player1_score.update_score()
+
+
+    if ball.ball.xcor() <= -300:
+        ball.reset_ball()
+        player2_score.current_score += 1
+        player2_score.update_score()
+
+    if player1_score.current_score == 11 or player2_score.current_score == 11:
+        game_on = False
+        ball.game_over()
+
 
 win.exitonclick()
 
